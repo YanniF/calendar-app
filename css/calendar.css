@@ -176,6 +176,7 @@ p a {
 }
 
 .times {
+  margin-top: -6px;
   font-size: 2.8rem;
   float: right;
   cursor: pointer;
