@@ -1,3 +1,8 @@
+/*
+  TODO:
+  - responsive
+*/
+
 :root {
   --primary-color: #597ba9;
   --primary-color-light: #c0ceeb;
@@ -103,14 +108,16 @@ tbody td {
 }
 
 .add, 
-.edit {
+.edit,
+.no {
   color: var(--primary-color);;
   border-color: var(--primary-color);
   transition: all .3s;
 }
 
 .add:hover,
-.edit:hover {
+.edit:hover,
+.no:hover {
   background-color: var(--primary-color);
   color: var(--light-color);
 }
@@ -180,6 +187,11 @@ p a {
   font-size: 2.8rem;
   float: right;
   cursor: pointer;
+  transition: all .3s;
+}
+
+.times:hover {
+  color: var(--primary-color-light);
 }
 
 input, 

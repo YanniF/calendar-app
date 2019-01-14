@@ -62,16 +62,16 @@
     </main>
     <div class="modal-wrapper add-modal">
       <div class="modal">
-        <header><h2>Add</h2><span class="times">&times;</span></header>
+        <header class="modal-header"><h2>Add</h2><span class="times">&times;</span></header>
         <div class="modal-body">
           <form>
             <div class="inputs">
-              <input type="text" placeholder="Title">
+              <input type="text" class="inputs-title" placeholder="Title" required>
             </div>
             <div class="inputs">
-              <textarea name="" rows="4" placeholder="Description"></textarea>
+              <textarea class="inputs-desc" rows="4" placeholder="Description" required></textarea>
             </div>
-            <input type="submit" class="btn add" value="Add">
+            <input type="submit" class="btn add modal-save" value="Add">
             <input type="button" class="btn cancel" value="Cancel">
           </form>
         </div>
@@ -79,11 +79,11 @@
     </div>
     <div class="modal-wrapper del-modal">
       <div class="modal">
-          <header><h2>Delete</h2><span class="times">&times;</span></header>
+        <header class="modal-header"><h2>Delete</h2><span class="times">&times;</span></header>
         <div class="modal-body">
           <p>Do you want to delete this appointment?</p>
           <input type="submit" class="btn del" value="Yes">
-          <input type="button" class="btn edit" value="No">
+          <input type="button" class="btn no" value="No">
         </div>
       </div>
     </div>
