@@ -38,23 +38,7 @@
                 <a href="#" class="btn del"><span class="fas fa-trash-alt"></span></a>
               </span>
               <p><a href="#">Appointment lalala lala lalala lalala </a></p>
-            </td>
-            <td>
-              <span class="table-day">4</span>
-              <a href="#" class="btn add"><span class="fas fa-plus"></span></a>
-            </td>
-            <td>
-              <span class="table-day">5</span>
-              <a href="#" class="btn add"><span class="fas fa-plus"></span></a>
-            </td>
-            <td>
-              <span class="table-day">6</span>
-              <a href="#" class="btn add"><span class="fas fa-plus"></span></a>
-            </td>
-            <td>
-              <span class="table-day">7</span>
-              <a href="#" class="btn add"><span class="fas fa-plus"></span></a>
-            </td>
+            </td>            
           </tr>
           -->
         </tbody>
@@ -64,16 +48,14 @@
       <div class="modal">
         <header class="modal-header"><h2>Add</h2><span class="times">&times;</span></header>
         <div class="modal-body">
-          <form>
             <div class="inputs">
-              <input type="text" class="inputs-title" placeholder="Title" required>
+              <input type="text" class="inputs-title" placeholder="Title" maxlength="40">
             </div>
             <div class="inputs">
-              <textarea class="inputs-desc" rows="4" placeholder="Description" required></textarea>
+              <textarea class="inputs-desc" rows="4" placeholder="Description"></textarea>
             </div>
             <input type="submit" class="btn add modal-save" value="Add">
             <input type="button" class="btn cancel" value="Cancel">
-          </form>
         </div>
       </div>
     </div>
@@ -82,7 +64,7 @@
         <header class="modal-header"><h2>Delete</h2><span class="times">&times;</span></header>
         <div class="modal-body">
           <p>Do you want to delete this appointment?</p>
-          <input type="submit" class="btn del" value="Yes">
+          <input type="submit" class="btn del yes" value="Yes">
           <input type="button" class="btn no" value="No">
         </div>
       </div>
