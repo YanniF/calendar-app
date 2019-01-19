@@ -4,6 +4,7 @@
   TODO:
   - select month
   - localStorage 
+  - merge add and edit modals and info
   - modal: add animation 
            close modal when clicking outside of it
            add date on title
@@ -19,19 +20,38 @@ const calendarCtrl = (() => {
       data.push(item);
     }, 
 
-    removeApp: (item) => {
-      let index, elems;
+    removeApp: (id) => {
+      let index, ids;
 
-      elems = data.map(i => i.id);
-
-      index = elems.indexOf(item);
+      ids = data.map(i => i.id);
+      index = ids.indexOf(id);
    
-      if(elems != -1)
+      if(ids != -1)
         data.splice(index, 1);
     },
 
-    getData: () => {
-      return data;
+    editApp: (item) => {
+      let index, elems;
+
+      elems = data.map(i => i.id);
+      index = elems.indexOf(item.id);
+
+      data[index].title = item.title;
+      data[index].desc = item.desc;
+    },
+
+    getData: (id) => {
+      if(id) {
+        let index, ids;
+        
+        ids = data.map(i => i.id);
+        index = ids.indexOf(id);       
+    
+        if(ids != -1)
+          return data[index];
+      }
+      else 
+        return data;
     },
 
     setDate: (d) => {
@@ -43,11 +63,13 @@ const calendarCtrl = (() => {
 
 
 //------ UI
-const UICtrl = (function() {
+const UICtrl = (function(calendar) {
+  
   return {
     showModal: (e) => {
       e = e.target;
       const modalAdd = document.querySelector(".add-modal");
+      const modalEdit = document.querySelector(".edit-modal");
       const modalDel = document.querySelector(".del-modal");
 
       // this will solve the problem on firefox
@@ -60,7 +82,14 @@ const UICtrl = (function() {
         modalAdd.setAttribute("data-day", btnAdd.dataset["day"]);
       }
       else if(btnEdit) {
-        document.querySelector(".add-modal").style.display = "flex";
+        // show modal and get the values of the selected item
+        modalEdit.style.display = "flex";
+        modalEdit.setAttribute("data-day", btnEdit.dataset["day"]);
+
+        let item = calendar.getData(btnEdit.dataset["day"]);
+        
+        document.querySelector('.inputs-title-edit').value = item.title;
+        document.querySelector('.inputs-desc-edit').value = item.desc
       }
       else if(btnDel) {
         modalDel.style.display = "flex";
@@ -75,7 +104,8 @@ const UICtrl = (function() {
     clearFields: () => {
       document.querySelector(".inputs-title").value = '';
       document.querySelector(".inputs-desc").value = '';
-      document.querySelector(".inputs-title").focus();
+      document.querySelector(".inputs-title-edit").value = '';
+      document.querySelector(".inputs-desc-edit").value = '';
     },
 
     removeTable:() => {
@@ -98,7 +128,7 @@ const UICtrl = (function() {
         }
       }
 
-      // start on the right day of the week
+      // start month on the right day of the week
       for(let c = 0; c < firstDayWeek; c++) {
         table += "<td></td>";
       }
@@ -111,7 +141,7 @@ const UICtrl = (function() {
           <td>
             <span class="table-day">${c}</span>
             <span class="buttons">
-              <a href="#" class="btn edit"><span class="fas fa-pencil-alt"></span></a>
+              <a href="#" class="btn edit" data-day="${c}"><span class="fas fa-pencil-alt"></span></a>
               <a href="#" class="btn del" data-day="${c}"><span class="fas fa-trash-alt"></span></a>
             </span>
             <p><a href="#">${data[value]["title"]}</a></p>
@@ -154,12 +184,23 @@ const UICtrl = (function() {
         desc: document.querySelector('.inputs-desc').value, 
       }
     },
+    
+    getInfoEdit: () => {
+      const d = new Date();
+      
+      return {
+        id: document.querySelector('.edit-modal').dataset.day,
+        date: document.querySelector('.edit-modal').dataset.day + "/" + (d.getMonth() + 1) + "/" + d.getFullYear(),
+        title: document.querySelector('.inputs-title-edit').value,
+        desc: document.querySelector('.inputs-desc-edit').value, 
+      }
+    },
 
     getInfoDel: () => {
       return document.querySelector('.del-modal').dataset.day;
     }  
   }
-})();
+})(calendarCtrl);
 //------ UI
 
 
@@ -185,12 +226,21 @@ const app = ((ui, calendar) => {
     ui.generateTable(calendar.getData());
   }
 
+  const editItem = () => {
+    ui.hideModal();
+    calendar.editApp(ui.getInfoEdit());
+    ui.clearFields();
+    ui.removeTable();
+    ui.generateTable(calendar.getData());
+  }
+
   const addListeners = function () {
     document.querySelector(".calendar").addEventListener("click", ui.showModal);
     document.querySelectorAll(".times").forEach(modal => modal.addEventListener("click", ui.hideModal));
-    document.querySelector(".cancel").addEventListener("click", ui.hideModal);
+    document.querySelectorAll(".cancel").forEach(modal => modal.addEventListener("click", ui.hideModal));
     document.querySelector(".no").addEventListener("click", ui.hideModal);
     document.querySelector(".modal-save").addEventListener("click", addItem);
+    document.querySelector(".modal-update").addEventListener("click", editItem);
     document.querySelector(".yes").addEventListener("click", deleteItem);
   }
 
@@ -204,4 +254,3 @@ const app = ((ui, calendar) => {
 //------ APP
 
 app.init();
-
